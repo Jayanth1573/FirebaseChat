@@ -11,6 +11,7 @@
 		FD0306132A6B09FD00219F3B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0306122A6B09FD00219F3B /* ContentView.swift */; };
 		FD0306152A6B09FE00219F3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD0306142A6B09FE00219F3B /* Assets.xcassets */; };
 		FD0306182A6B09FE00219F3B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD0306172A6B09FE00219F3B /* Preview Assets.xcassets */; };
+		FD985BC02A74C29D0048D6B1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD985BBF2A74C29D0048D6B1 /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		FD0306122A6B09FD00219F3B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FD0306142A6B09FE00219F3B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD0306172A6B09FE00219F3B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FD985BBF2A74C29D0048D6B1 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				FD0306102A6B09FD00219F3B /* FirebaseChatApp.swift */,
 				FD0306122A6B09FD00219F3B /* ContentView.swift */,
+				FD985BBF2A74C29D0048D6B1 /* LoginView.swift */,
 				FD0306142A6B09FE00219F3B /* Assets.xcassets */,
 				FD0306162A6B09FE00219F3B /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD985BC02A74C29D0048D6B1 /* LoginView.swift in Sources */,
 				FD0306132A6B09FD00219F3B /* ContentView.swift in Sources */,
 				FD0306112A6B09FD00219F3B /* FirebaseChatApp.swift in Sources */,
 			);
