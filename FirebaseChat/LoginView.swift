@@ -7,29 +7,29 @@
 
 import SwiftUI
 import Firebase
+import FirebaseStorage
 
 class FirebaseManager: NSObject{
     let auth: Auth
-    
+    let storage: Storage
     static let shared = FirebaseManager()
     override init() {
         FirebaseApp.configure()
         self.auth = Auth.auth()
+        self.storage = Storage.storage()
         super.init()
     }
     
 }
 
 struct LoginView: View {
-
+    
     @State var isLoginMode = false
     @State var email = ""
     @State var password = ""
-    
-//    init() {
-//        FirebaseApp.configure()
-//    }
-    
+    @State var shouldShowImagePicker = false
+    @State var image: UIImage?
+ 
     var body: some View {
         NavigationView {
             ScrollView{
@@ -46,11 +46,29 @@ struct LoginView: View {
                     if !isLoginMode {
                         
                         Button {
-                            
+                            shouldShowImagePicker.toggle()
                         } label: {
-                            Image(systemName: "person.fill")
-                                .font(.system(size: 65))
-                                .padding()
+                            VStack {
+                                if let image = self.image {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 120,height: 120)
+                                      
+                                } else {
+                                    Image(systemName: "person.fill")
+                                        .font(.system(size: 65))
+                                        .foregroundColor(Color.black)
+                                        .padding()
+                                    
+                                }
+                            }
+                            .clipShape(Circle())
+                            .overlay{
+                                Circle().stroke(.black, lineWidth: 3)
+                            }
+                            
+                            
                         }
                     }
                     
@@ -85,6 +103,9 @@ struct LoginView: View {
             .background(Color(white: 0, opacity: 0.05))
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .fullScreenCover(isPresented: $shouldShowImagePicker,onDismiss: nil) {
+            ImagePicker(image: $image)
+        }
     }
     
     private func handleAction(){
@@ -111,6 +132,28 @@ struct LoginView: View {
                 return
             }
             print("Succesfully created user: \(result?.user.uid ?? "")")
+            self.PersistImageToStorage()
+        }
+    }
+    
+    private func PersistImageToStorage() {
+//        let fileName = UUID().uuidString
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else
+        { return }
+       let ref = FirebaseManager.shared.storage.reference(withPath: uid)
+        guard let imageData = self.image?.jpegData(compressionQuality: 0.5) else { return }
+        ref.putData(imageData, metadata: nil) { metadata, error in
+            if let error = error {
+                print("Failed to push image to storage: \(error)")
+                return
+            }
+            ref.downloadURL { url, error in
+                if let error = error {
+                    print("Failed to retrieve downloaded url: \(error)")
+                    return
+                }
+                print("Succesfully stored image")
+            }
         }
     }
 }

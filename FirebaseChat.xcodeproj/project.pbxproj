@@ -12,6 +12,7 @@
 		FD0306152A6B09FE00219F3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD0306142A6B09FE00219F3B /* Assets.xcassets */; };
 		FD0306182A6B09FE00219F3B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD0306172A6B09FE00219F3B /* Preview Assets.xcassets */; };
 		FD985BC02A74C29D0048D6B1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD985BBF2A74C29D0048D6B1 /* LoginView.swift */; };
+		FDB107592A75B6A000E56CBA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB107582A75B6A000E56CBA /* ImagePicker.swift */; };
 		FDC8EE272A75938200E3C568 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FDC8EE262A75938200E3C568 /* FirebaseAuth */; };
 		FDC8EE292A75938200E3C568 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FDC8EE282A75938200E3C568 /* FirebaseStorage */; };
 		FDC8EE2D2A759A7800E3C568 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDC8EE2C2A759A7800E3C568 /* GoogleService-Info.plist */; };
@@ -24,6 +25,7 @@
 		FD0306142A6B09FE00219F3B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD0306172A6B09FE00219F3B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FD985BBF2A74C29D0048D6B1 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		FDB107582A75B6A000E56CBA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		FDC8EE2C2A759A7800E3C568 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +64,7 @@
 				FD0306102A6B09FD00219F3B /* FirebaseChatApp.swift */,
 				FD0306122A6B09FD00219F3B /* ContentView.swift */,
 				FD985BBF2A74C29D0048D6B1 /* LoginView.swift */,
+				FDB107582A75B6A000E56CBA /* ImagePicker.swift */,
 				FDC8EE2C2A759A7800E3C568 /* GoogleService-Info.plist */,
 				FD0306142A6B09FE00219F3B /* Assets.xcassets */,
 				FD0306162A6B09FE00219F3B /* Preview Content */,
@@ -156,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD985BC02A74C29D0048D6B1 /* LoginView.swift in Sources */,
+				FDB107592A75B6A000E56CBA /* ImagePicker.swift in Sources */,
 				FD0306132A6B09FD00219F3B /* ContentView.swift in Sources */,
 				FD0306112A6B09FD00219F3B /* FirebaseChatApp.swift in Sources */,
 			);
