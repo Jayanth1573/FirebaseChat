@@ -8,15 +8,18 @@
 import SwiftUI
 import Firebase
 import FirebaseStorage
+import FirebaseFirestore
 
 class FirebaseManager: NSObject{
     let auth: Auth
     let storage: Storage
+    let firestore: Firestore
     static let shared = FirebaseManager()
     override init() {
         FirebaseApp.configure()
         self.auth = Auth.auth()
         self.storage = Storage.storage()
+        self.firestore = Firestore.firestore()
         super.init()
     }
     
@@ -110,13 +113,13 @@ struct LoginView: View {
     
     private func handleAction(){
         if isLoginMode {
-            LoginUser()
+            loginUser()
         } else {
-            CreateNewAccount()
+            createNewAccount()
         }
     }
     
-    private func LoginUser() {
+    private func loginUser() {
         FirebaseManager.shared.auth.signIn(withEmail: email, password: password) { result, error in
             if let error {
                 print("Error sigining in user: \(error)")
@@ -125,18 +128,18 @@ struct LoginView: View {
         }
     }
     
-    private func CreateNewAccount() {
+    private func createNewAccount() {
         FirebaseManager.shared.auth.createUser(withEmail: email, password: password) { result, error in
             if let error {
                 print("Failed to create new user: \(error)")
                 return
             }
             print("Succesfully created user: \(result?.user.uid ?? "")")
-            self.PersistImageToStorage()
+            self.persistImageToStorage()
         }
     }
     
-    private func PersistImageToStorage() {
+    private func persistImageToStorage() {
 //        let fileName = UUID().uuidString
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else
         { return }
@@ -152,8 +155,22 @@ struct LoginView: View {
                     print("Failed to retrieve downloaded url: \(error)")
                     return
                 }
+                guard let url = url else {return}
+                self.storeUserInformation(imageProfileUrl: url)
                 print("Succesfully stored image")
             }
+        }
+    }
+    
+    private func storeUserInformation(imageProfileUrl: URL) {
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+        let userData = ["email": self.email, "uid": uid, "profileImageUrl": imageProfileUrl.absoluteString]
+        FirebaseManager.shared.firestore.collection("users").document(uid).setData(userData) { error in
+            if let error = error {
+                print("Error saving data to firestore:\(error)")
+                return
+            }
+            print("Success saving data to firestore")
         }
     }
 }
