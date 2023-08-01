@@ -6,15 +6,67 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
+struct ChatUser {
+    let uid, email, profileImageUrl : String
+}
+
+
+// MARK: - MainMessagesViewModel
+class  MainMessagesViewModel: ObservableObject {
+    @Published var errorMessage = ""
+    @Published var chatUser: ChatUser?
+    init() {
+        fetchCurrentUser()
+    }
+    
+    private func fetchCurrentUser() {
+       
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else {
+//            self.errorMessage = "Could not find firebase uid"
+            return}
+        
+        
+        FirebaseManager.shared.firestore.collection("users").document(uid).getDocument { snapshot, error in
+            if let error = error {
+                print("Failed to fetch current user:\(error)")
+                return
+            }
+            guard let data = snapshot?.data() else { return }
+            let uid = data["uid"] as? String ?? ""
+            let email = data["email"] as? String ?? ""
+            let profileImageUrl = data["profileImageUrl"] as? String ?? ""
+            self.chatUser = ChatUser(uid: uid, email: email, profileImageUrl: profileImageUrl)
+//            self.errorMessage = chatUser.profileImageUrl
+            
+        }
+    }
+}
+
+
+// MARK: - MainMessagesView
 struct MainMessagesView: View {
+    
     @State var shouldShowLogOutOptions = false
+    
+    @ObservedObject private var vm = MainMessagesViewModel()
+    
+
     private var customNavBar: some View {
         HStack (spacing: 16){
-            Image(systemName: "person.fill")
-                .font(.system(size: 32,weight: .heavy))
+            
+            WebImage(url: URL(string: vm.chatUser?.profileImageUrl ?? ""))
+                .resizable()
+                .scaledToFill()
+                .frame(width: 50,height: 50)
+                .clipped()
+                .cornerRadius(50)
+                .overlay(RoundedRectangle (cornerRadius: 44)
+                    .stroke(Color(.label),lineWidth: 1))
+            
             VStack(alignment: .leading,spacing: 4) {
-                Text("Username")
+                Text("\(vm.chatUser?.email.replacingOccurrences(of: "@gmail.com", with: "") ?? "")")
                     .font(.system(size: 25,weight: .bold))
                 HStack {
                     Circle()
@@ -34,9 +86,7 @@ struct MainMessagesView: View {
                     .foregroundColor(Color(.label))
             }
 
-            
         }
-        
         .padding()
         .actionSheet(isPresented: $shouldShowLogOutOptions) {
             .init(title: Text("Settings"),message: Text("What do you want to do?"),buttons: [
@@ -48,9 +98,13 @@ struct MainMessagesView: View {
         }
 
     }
+    
+    
+    // MARK: - body
     var body: some View {
         NavigationView{
             VStack {
+//                Text("Current user id: \(vm.errorMessage)")
                 customNavBar
                  messagesView
             }
@@ -96,6 +150,9 @@ struct MainMessagesView: View {
         }
 
     }
+    
+    
+    // MARK: - newMessageButton
     private var newMessageButton: some View {
         Button {
          
@@ -115,6 +172,7 @@ struct MainMessagesView: View {
         }
     }
 }
+
 
 struct MainMessagesView_Previews: PreviewProvider {
     static var previews: some View {
