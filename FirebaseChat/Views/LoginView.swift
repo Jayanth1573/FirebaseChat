@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct LoginView: View {
+    let didCompleteLoginProcess: () -> ()
     
-    @State var isLoginMode = false
-    @State var email = ""
-    @State var password = ""
-    @State var shouldShowImagePicker = false
-    @State var image: UIImage?
+    @State private var isLoginMode = false
+    @State private var email = ""
+    @State private var password = ""
+    @State private var shouldShowImagePicker = false
+    @State private var image: UIImage?
  
     var body: some View {
         NavigationView {
@@ -103,10 +104,15 @@ struct LoginView: View {
                 print("Error sigining in user: \(error)")
             }
             print("Succesfully logged in: \(result?.user.uid ?? "")")
+            self.didCompleteLoginProcess()
         }
     }
     
     private func createNewAccount() {
+        if self.image == nil {
+            print("You must select an image to create account.")
+            return
+        }
         FirebaseManager.shared.auth.createUser(withEmail: email, password: password) { result, error in
             if let error {
                 print("Failed to create new user: \(error)")
@@ -149,6 +155,7 @@ struct LoginView: View {
                 return
             }
             print("Success saving data to firestore")
+            self.didCompleteLoginProcess()
         }
     }
 }
@@ -156,6 +163,8 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(didCompleteLoginProcess: {
+            
+        })
     }
 }

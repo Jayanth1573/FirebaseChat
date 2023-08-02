@@ -11,6 +11,7 @@
 		FD0306132A6B09FD00219F3B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0306122A6B09FD00219F3B /* ContentView.swift */; };
 		FD0306152A6B09FE00219F3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD0306142A6B09FE00219F3B /* Assets.xcassets */; };
 		FD0306182A6B09FE00219F3B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD0306172A6B09FE00219F3B /* Preview Assets.xcassets */; };
+		FD42EDE72A7A249400992739 /* ChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD42EDE62A7A249400992739 /* ChatUser.swift */; };
 		FD51CFFA2A79161E002468D7 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = FD51CFF92A79161E002468D7 /* SDWebImageSwiftUI */; };
 		FD94AA982A7789B80068D3A9 /* MainMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94AA972A7789B80068D3A9 /* MainMessagesView.swift */; };
 		FD985BC02A74C29D0048D6B1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD985BBF2A74C29D0048D6B1 /* LoginView.swift */; };
@@ -28,6 +29,7 @@
 		FD0306122A6B09FD00219F3B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FD0306142A6B09FE00219F3B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD0306172A6B09FE00219F3B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FD42EDE62A7A249400992739 /* ChatUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUser.swift; sourceTree = "<group>"; };
 		FD94AA972A7789B80068D3A9 /* MainMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessagesView.swift; sourceTree = "<group>"; };
 		FD985BBF2A74C29D0048D6B1 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		FDB107582A75B6A000E56CBA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				FD0306102A6B09FD00219F3B /* FirebaseChatApp.swift */,
+				FD42EDE52A7A248200992739 /* Model */,
 				FDFF13222A77B70600762257 /* Views */,
 				FDFF13212A77B6B600762257 /* Utilities */,
 				FDC8EE2C2A759A7800E3C568 /* GoogleService-Info.plist */,
@@ -85,6 +88,14 @@
 				FD0306172A6B09FE00219F3B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FD42EDE52A7A248200992739 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FD42EDE62A7A249400992739 /* ChatUser.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		FDFF13212A77B6B600762257 /* Utilities */ = {
@@ -187,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD42EDE72A7A249400992739 /* ChatUser.swift in Sources */,
 				FDFF13202A77B6B100762257 /* FirebaseManager.swift in Sources */,
 				FD985BC02A74C29D0048D6B1 /* LoginView.swift in Sources */,
 				FDB107592A75B6A000E56CBA /* ImagePicker.swift in Sources */,
