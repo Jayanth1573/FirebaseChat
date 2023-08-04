@@ -200,22 +200,6 @@ struct MainMessagesView: View {
     @State var chatUser: ChatUser?
 }
 
-struct ChatLogView: View {
-    
-    let chatUser: ChatUser?
-    var body: some View {
-        
-            ScrollView {
-                ForEach(0..<10) {
-                    num in
-                    Text("fake message")
-                }
-            }
-            .navigationTitle(chatUser?.email ?? "")
-    }
-}
-
-
 struct MainMessagesView_Previews: PreviewProvider {
     static var previews: some View {
         MainMessagesView()
