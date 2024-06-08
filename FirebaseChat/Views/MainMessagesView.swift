@@ -22,10 +22,10 @@ struct MainMessagesView: View {
             
             VStack {
                 customNavBar
-                 messagesView
+                messagesView
                 
                 NavigationLink("", isActive: $shouldNavigateToChatLogView) {
-                    ChatLogView(chatUser: self.chatUser ?? .init(data: ["uid": "real user id","email": "fake@gmail.com"]))
+                    ChatLogView(chatUser: self.chatUser)
                 }
                 
             }

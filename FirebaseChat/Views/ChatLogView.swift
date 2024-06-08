@@ -5,63 +5,91 @@
 //  Created by Jayanth Ambaldhage on 04/08/23.
 //
 
+
 import SwiftUI
+import Firebase
+
 
 struct ChatLogView: View {
-    @State var chatMessage = ""
     
     let chatUser: ChatUser?
-    init(chatUser: ChatUser) {
+    
+    init(chatUser: ChatUser?) {
         self.chatUser = chatUser
         self.vm = .init(chatUser: chatUser)
     }
-    @ObservedObject var vm: ChatLogViewModel
     
+    @ObservedObject var vm: ChatLogViewModel
     
     var body: some View {
         ZStack {
-            messageView
+            messagesView
             Text(vm.errorMessage)
         }
-        
-        
         .navigationTitle(chatUser?.email ?? "")
-        .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.inline)
     }
     
-    private var messageView: some View {
-        ScrollView {
-            ForEach(0..<10) { num in
-                HStack {
-                    Spacer()
-                    HStack {
-                        Text("NOT SO fake message")
-                            .foregroundColor(.white)
+    private var messagesView: some View {
+        VStack {
+            if #available(iOS 15.0, *) {
+                ScrollView {
+                    ForEach(vm.chatMessages) { message in
+                        VStack {
+                            if message.fromId == FirebaseManager.shared.auth.currentUser?.uid {
+                                HStack {
+                                    Spacer()
+                                    HStack {
+                                        Text(message.text)
+                                            .foregroundColor(.white)
+                                    }
+                                    .padding()
+                                    .background(Color.blue)
+                                    .cornerRadius(8)
+                                }
+                            } else {
+                                HStack {
+                                    HStack {
+                                        Text(message.text)
+                                            .foregroundColor(.black)
+                                    }
+                                    .padding()
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                                    Spacer()
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                        
                     }
-                    .padding()
-                    .background(Color.blue)
-                    .cornerRadius(8)
+                    
+                    HStack{ Spacer() }
                 }
-                .padding(.horizontal)
-                .padding(.top,8)
+                .background(Color(.init(white: 0.95, alpha: 1)))
+                .safeAreaInset(edge: .bottom) {
+                    chatBottomBar
+                        .background(Color(.systemBackground).ignoresSafeArea())
+                }
+            } else {
+                // Fallback on earlier versions
             }
-            HStack{
-                Spacer()
-            }
-        }
-        .background(Color(.init(white: 0.95, alpha: 1)))
-        .safeAreaInset(edge: .bottom) {
-            chatBottomBar
-                .background(Color(.systemBackground)
-                    .ignoresSafeArea())
         }
     }
+    
     private var chatBottomBar: some View {
-        HStack (spacing: 16){
-            Image(systemName: "photo.fill.on.rectangle.fill")
+        HStack(spacing: 16) {
+            Image(systemName: "photo.on.rectangle")
                 .font(.system(size: 24))
                 .foregroundColor(Color(.darkGray))
-            TextField("Description", text: $vm.chatMessage)
+            ZStack {
+                DescriptionPlaceholder()
+                TextEditor(text: $vm.chatText)
+                    .opacity(vm.chatText.isEmpty ? 0.5 : 1)
+            }
+            .frame(height: 40)
+            
             Button {
                 vm.handleSend()
             } label: {
@@ -69,20 +97,33 @@ struct ChatLogView: View {
                     .foregroundColor(.white)
             }
             .padding(.horizontal)
-            .padding(.vertical,8)
+            .padding(.vertical, 8)
             .background(Color.blue)
-            .cornerRadius(5)
-            
+            .cornerRadius(4)
         }
         .padding(.horizontal)
-        .padding(.vertical,8)
+        .padding(.vertical, 8)
+    }
+}
+
+private struct DescriptionPlaceholder: View {
+    var body: some View {
+        HStack {
+            Text("Description")
+                .foregroundColor(Color(.gray))
+                .font(.system(size: 17))
+                .padding(.leading, 5)
+                .padding(.top, -4)
+            Spacer()
+        }
     }
 }
 
 struct ChatLogView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            ChatLogView(chatUser: .init(data: ["uid": "real user id","email": "fake@gmail.com"]))
-        }
+//        NavigationView {
+//            ChatLogView(chatUser: .init(data: ["uid": "R8ZrxIT4uRZMVZeWwWeQWPI5zUE3", "email": "waterfall1@gmail.com"]))
+//        }
+        MainMessagesView()
     }
 }
