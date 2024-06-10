@@ -18,13 +18,17 @@ struct MainMessagesView: View {
     @ObservedObject private var vm = MainMessagesViewModel()
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             
             VStack {
                 customNavBar
                 messagesView
                 
-                NavigationLink("", isActive: $shouldNavigateToChatLogView) {
+//                NavigationLink("", isActive: $shouldNavigateToChatLogView) {
+//                    ChatLogView(chatUser: self.chatUser)
+//                } // deprecated after ios 16
+                
+                .navigationDestination(isPresented: $shouldNavigateToChatLogView) {
                     ChatLogView(chatUser: self.chatUser)
                 }
                 
@@ -91,24 +95,31 @@ struct MainMessagesView: View {
         
     private var messagesView: some View {
         ScrollView {
-            ForEach(0..<10,id: \.self){ num in
+            ForEach(vm.recentMessages){ recentMessage in
                 VStack{
                     NavigationLink {
                         Text("Destination")
                     } label: {
                         
                         HStack(spacing: 16){
-                            Image(systemName: "person.fill")
-                                .font(.system(size:32))
-                                .padding(8)
-                                .overlay(RoundedRectangle (cornerRadius: 44)
-                                    .stroke(Color(.label),lineWidth: 1))
-                            VStack(alignment: .leading) {
-                                Text("Username")
+                            WebImage(url: URL(string: recentMessage.profileImageUrl))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 50,height: 50)
+                                .clipped()
+                                .cornerRadius(50)
+                                .overlay(RoundedRectangle (cornerRadius: 50)
+                                .stroke(Color(.label),lineWidth: 1))
+                                .shadow(radius: 5)
+                            
+                            VStack(alignment: .leading,spacing: 8) {
+                                Text(recentMessage.email)
                                     .font(.system(size: 16,weight: .bold))
-                                Text("Message sent by user")
+                                    .foregroundColor(Color(.label))
+                                Text(recentMessage.text)
                                     .font(.system(size: 14))
-                                    .foregroundColor(Color(.lightGray))
+                                    .foregroundColor(Color(.darkGray))
+                                    .multilineTextAlignment(.leading)
                                 
                             }
                             Spacer()
